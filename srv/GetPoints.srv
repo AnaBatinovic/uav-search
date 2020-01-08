@@ -1,0 +1,3 @@
+PointsRequest request
+---
+std_msgs/Float64MultiArray points
