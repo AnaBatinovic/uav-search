@@ -63,6 +63,8 @@ def generatepoints(length,spacing,dimension,sigma,startinglabel="uniform"):
     distance_travelled=0
     global txt
     for i in range(1,int(length)):
+        print("length", length)
+        print("dimension", dimension)
         a=points[i-1][0]
         b=points[i-1][1]
         x=a
@@ -88,7 +90,9 @@ def generatepoints(length,spacing,dimension,sigma,startinglabel="uniform"):
                 spacing_prev=spacing
                 angle = np.random.uniform(0, 1) * (2 * math.pi)
                 r=np.random.uniform(0,1)
-                spacing*=np.random.uniform(0,1)**(-1/sigma)
+                scaling = np.random.uniform(0,1)**(-1/sigma)
+                print("Scaling %s, sigma %s" % (scaling, sigma))
+                spacing*=scaling
             direction_x=math.cos(angle)
             direction_y=math.sin(angle)
             x=x+direction_x*spacing
@@ -101,8 +105,10 @@ def generatepoints(length,spacing,dimension,sigma,startinglabel="uniform"):
             if(j>=100):
                 x = a
                 y = b
+                print('breaking at j=%s' % j)
                 break
             j+=1
+        print("finished at j=%s" % j)
         points=np.vstack((points,np.array([[x,y]])))
         distance_travelled += np.linalg.norm(np.array([a,b])-np.array([x,y]))
         xs.append(x)
@@ -145,22 +151,22 @@ points=generatepoints(length,spacing,dimension,sigma)
 def sliders_on_changed(val):
     updatePlot()
 amp_0 = length
-amp_slider_ax  = fig.add_axes([0.25, 0.15, 0.65, 0.03], axisbg=axis_color)
+amp_slider_ax  = fig.add_axes([0.25, 0.15, 0.65, 0.03], facecolor=axis_color)
 amp_slider = Slider(amp_slider_ax, 'Number of steps', 1, 300, valinit=amp_0,valfmt= "%d")
 amp_slider.on_changed(sliders_on_changed)
 
 amp_1 = spacing
-amp_slider_ax1  = fig.add_axes([0.25, 0.1, 0.65, 0.03], axisbg=axis_color)
+amp_slider_ax1  = fig.add_axes([0.25, 0.1, 0.65, 0.03], facecolor=axis_color)
 amp_slider1 = Slider(amp_slider_ax1, 'Spacing', 0, 50, valinit=amp_1,valfmt= "%.2f m")
 amp_slider1.on_changed(sliders_on_changed)
 
 amp_2 = dimension
-amp_slider_ax2  = fig.add_axes([0.25, 0.05, 0.65, 0.03], axisbg=axis_color)
+amp_slider_ax2  = fig.add_axes([0.25, 0.05, 0.65, 0.03], facecolor=axis_color)
 amp_slider2 = Slider(amp_slider_ax2, 'Search space dimension', 0, 200, valinit=amp_2,valfmt= "%.2f m")
 amp_slider2.on_changed(sliders_on_changed)
 
 amp_3 = sigma
-amp_slider_ax3  = fig.add_axes([0.25, 0.0, 0.65, 0.03], axisbg=axis_color)
+amp_slider_ax3  = fig.add_axes([0.25, 0.0, 0.65, 0.03], facecolor=axis_color)
 amp_slider3 = Slider(amp_slider_ax3, 'Sigma/alpha', 0, 5, valinit=amp_3,valfmt= "%.3f")
 amp_slider3.on_changed(sliders_on_changed)
 # Add a button for resetting the parameters
