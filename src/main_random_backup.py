@@ -145,12 +145,12 @@ points=generatepoints(length,spacing,dimension,sigma)
 def sliders_on_changed(val):
     updatePlot()
 amp_0 = length
-amp_slider_ax  = fig.add_axes([0.25, 0.15, 0.65, 0.03], facecolor=axis_color)
+amp_slider_ax  = fig.add_axes([0.25, 0.15, 0.65, 0.03])
 amp_slider = Slider(amp_slider_ax, 'Number of steps', 1, 300, valinit=amp_0,valstep=1,valfmt= "%d")
 amp_slider.on_changed(sliders_on_changed)
 
 amp_1 = spacing
-amp_slider_ax1  = fig.add_axes([0.25, 0.1, 0.65, 0.03], facecolor=axis_color)
+amp_slider_ax1  = fig.add_axes([0.25, 0.1, 0.65, 0.03])
 amp_slider1 = Slider(amp_slider_ax1, 'Spacing', 0, 50, valinit=amp_1,valfmt= "%.2f m")
 amp_slider1.on_changed(sliders_on_changed)
 
@@ -178,7 +178,7 @@ def regenerate_button_on_clicked(mouse_event):
     updatePlot()
 regenerate_button.on_clicked(regenerate_button_on_clicked)
 
-color_radios_ax = fig.add_axes([0.025, 0.5, 0.15, 0.15], facecolor=axis_color)
+color_radios_ax = fig.add_axes([0.025, 0.5, 0.15, 0.15])
 color_radios = RadioButtons(color_radios_ax, ('uniform', 'normal','normal_with_turn',"normal_with_turn_and_scale","levy"), active=0)
 def color_radios_on_clicked(label):
     global startinglabel
