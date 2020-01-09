@@ -21,11 +21,11 @@ To call the *get_points* service, you need to create a message of type *PointsRe
 
 1. *pattern* - type string, can attain one of the following values:
 
-..* *spiral* - generates waypoints in shape of a spiral
+  * *spiral* - generates waypoints in shape of a spiral
 
-..* *lawn* - generates waypoints in shape of lawn mower pattern
+  * *lawn* - generates waypoints in shape of lawn mower pattern
 
-..* *levy* - generates a randomized pattern of 50 points
+  * *levy* - generates a randomized pattern of 50 points
 
 2. *size_x* - type float64, denotes the horizontal size of the area
 3. *size_y* - type float64, denotes the vertical size of the area
