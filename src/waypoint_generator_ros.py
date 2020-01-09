@@ -2,8 +2,6 @@
 import rospy
 import math
 import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Rectangle
 from uav_search.srv import *
 from uav_search.msg import *
 
@@ -54,7 +52,7 @@ class WaypointGenerator:
 
     def generatePointsLevy(self, length_x, length_y, sigma):
         start = np.array([[0, 0, self.height, 0]])
-        num_points = 300
+        num_points = 50
         points = np.array(start)
         for i in range(1,num_points):
             a=points[i-1][0]
@@ -92,18 +90,25 @@ class WaypointGenerator:
             points = self.generatePointsLevy(req.request.size_x, req.request.size_y, 1)
         elif req.request.pattern == "lawn":
             points = self.generatePointsLawn(req.request.size_x, req.request.size_y)
-        fig = plt.figure()
-        ax = fig.add_subplot(111)
-        axis_color = 'lightgoldenrodyellow'
-        [line] = ax.plot(points[:,0], points[:,1], marker="o", markerfacecolor="r", linestyle='-')
-        line.set_xdata(points[:, 0])
-        line.set_ydata(points[:, 1])
-        [p.remove() for p in reversed(ax.patches)]
-        ax.add_patch(Rectangle((0, 0), req.request.size_x, req.request.size_y, alpha=0.2))
-        ax.relim()
-        ax.autoscale_view()
-        fig.canvas.draw_idle()
-        plt.show()
+        else:
+            return
+        response = PatternPoints()
+        response.size_x = points.shape[0]
+        response.size_y = points.shape[1]
+        response.data = np.ndarray.flatten(points)
+        return GetPointsResponse(response)
+        # fig = plt.figure()
+        # ax = fig.add_subplot(111)
+        # axis_color = 'lightgoldenrodyellow'
+        # [line] = ax.plot(points[:,0], points[:,1], marker="o", markerfacecolor="r", linestyle='-')
+        # line.set_xdata(points[:, 0])
+        # line.set_ydata(points[:, 1])
+        # [p.remove() for p in reversed(ax.patches)]
+        # ax.add_patch(Rectangle((0, 0), req.request.size_x, req.request.size_y, alpha=0.2))
+        # ax.relim()
+        # ax.autoscale_view()
+        # fig.canvas.draw_idle()
+        # plt.show()
 
     def service_server(self):
         service = rospy.Service('get_points', GetPoints, self.handle_get_points)

@@ -1,3 +1,0 @@
-<launch>
-      <node name="point_generator" pkg="uav_search" type="test_ros.py" output="screen"/>
- </launch>

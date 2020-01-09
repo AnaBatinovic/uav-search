@@ -1,0 +1,3 @@
+<launch>
+      <node name="point_generator" pkg="uav_search" type="waypoint_generator_ros.py" output="screen"/>
+ </launch>
