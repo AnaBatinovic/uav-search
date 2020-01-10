@@ -6,6 +6,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.widgets import Rectangle
 
+def draw_orientation(points, ax):
+    for point in points:
+        ax.arrow(point[0], point[1], 3*np.cos(point[3]), 3*np.sin(point[3]),lw=2, head_width=1, head_length=1.5, fc='k', ec='k')
+
 def get_points_client(obs):
     rospy.wait_for_service('get_points')
     try:
@@ -25,6 +29,11 @@ if __name__ == "__main__":
             size_y = raw_input("Size_y: ")
             spacing = raw_input("Spacing: ")
             height = raw_input("Height:")
+            # pattern_type = "spiral"
+            # size_x = 100.0
+            # size_y = 100.0
+            # spacing = 5.0
+            # height = 13.1
             request = PointsRequest()
             request.pattern = pattern_type
             request.size_x = float(size_x)
@@ -44,6 +53,7 @@ if __name__ == "__main__":
             line.set_ydata(points[:, 1])
             [p.remove() for p in reversed(ax.patches)]
             ax.add_patch(Rectangle((0, 0), request.size_x, request.size_y, alpha=0.2))
+            draw_orientation(points, ax)
             ax.relim()
             ax.autoscale_view()
             fig.canvas.draw_idle()

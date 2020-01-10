@@ -34,7 +34,8 @@ class WaypointGenerator:
             x=points[i-1][1]+np.array(directions[(i-1)%4][1])*((num_points-i)*self.spacing)
             xnew=a+b-x
             ynew=y+b-a
-            points=np.vstack((points,np.array([[xnew, ynew, self.height, 0]])))
+            orient = np.arctan2(ynew-b, xnew-a)
+            points=np.vstack((points,np.array([[xnew, ynew, self.height, orient]])))
         return points
 
     def generatePointsLawn(self, length_x, length_y):
@@ -47,7 +48,8 @@ class WaypointGenerator:
             b=points[i-1][1]
             x=points[i-1][0]+np.array(directions[(i-1)%2][0])*self.spacing
             y=points[i-1][1]+np.array(directions[(i-1)%2][1])*length_y
-            points=np.vstack((points,np.array([[x, y, self.height, 0]])))
+            orient = np.arctan2(y-b, x-a)
+            points=np.vstack((points,np.array([[x, y, self.height, orient]])))
         return points
 
     def generatePointsLevy(self, length_x, length_y, sigma):
@@ -78,7 +80,8 @@ class WaypointGenerator:
                 count += 1
                 if count > 100:
                     break
-            points=np.vstack((points,np.array([[x,y, self.height, 0]])))
+            orient = np.arctan2(y-b, x-a)
+            points=np.vstack((points,np.array([[x,y, self.height, orient]])))
         return points
 
     def handle_get_points(self, req):
