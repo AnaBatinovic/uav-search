@@ -60,6 +60,7 @@ class WaypointGenerator:
 
     def generatePointsLevy(self, length_x, length_y, sigma):
         start = np.array([[0, 0, self.height, 0]])
+        # change this to get more points
         num_points = 50
         points = np.array(start)
         for i in range(1,num_points):
@@ -109,18 +110,6 @@ class WaypointGenerator:
         response.size_y = points.shape[1]
         response.data = np.ndarray.flatten(points)
         return GetPointsResponse(response)
-        # fig = plt.figure()
-        # ax = fig.add_subplot(111)
-        # axis_color = 'lightgoldenrodyellow'
-        # [line] = ax.plot(points[:,0], points[:,1], marker="o", markerfacecolor="r", linestyle='-')
-        # line.set_xdata(points[:, 0])
-        # line.set_ydata(points[:, 1])
-        # [p.remove() for p in reversed(ax.patches)]
-        # ax.add_patch(Rectangle((0, 0), req.request.size_x, req.request.size_y, alpha=0.2))
-        # ax.relim()
-        # ax.autoscale_view()
-        # fig.canvas.draw_idle()
-        # plt.show()
 
     def service_server(self):
         service = rospy.Service('get_points', GetPoints, self.handle_get_points)
@@ -131,17 +120,3 @@ if __name__ == '__main__':
     rospy.init_node('uav_search_pattern_generator')
     gen = WaypointGenerator()
     gen.service_server()
-    # points = gen.generatePointsSpiral(300, 400)
-    # print(points)
-    # fig = plt.figure()
-    # ax = fig.add_subplot(111)
-    # axis_color = 'lightgoldenrodyellow'
-    # [line] = ax.plot(points[:,0], points[:,1], marker="o", markerfacecolor="r", linestyle='-')
-    # line.set_xdata(points[:, 0])
-    # line.set_ydata(points[:, 1])
-    # [p.remove() for p in reversed(ax.patches)]
-    # ax.add_patch(Rectangle((0, 0), 300, 400, alpha=0.2))
-    # ax.relim()
-    # ax.autoscale_view()
-    # fig.canvas.draw_idle()
-    # plt.show()

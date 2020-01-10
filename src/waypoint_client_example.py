@@ -10,30 +10,31 @@ def draw_orientation(points, ax):
     for point in points:
         ax.arrow(point[0], point[1], 3*np.cos(point[3]), 3*np.sin(point[3]),lw=2, head_width=1, head_length=1.5, fc='k', ec='k')
 
-def get_points_client(obs):
+def get_points_client(request):
     rospy.wait_for_service('get_points')
     try:
-        new_action = rospy.ServiceProxy('get_points', GetPoints)
-        response = new_action(obs)
+        pointse_service = rospy.ServiceProxy('get_points', GetPoints)
+        response = pointse_service(request)
         return response.response
     except rospy.ServiceException, e:
         print "Service call failed: %s" % e
+        return None
 
 
 if __name__ == "__main__":
     print("Will do the test now")
     try:
         while True:
-            # pattern_type = raw_input("Pattern type: ")
-            # size_x = raw_input("Size_x: ")
-            # size_y = raw_input("Size_y: ")
-            # spacing = raw_input("Spacing: ")
-            # height = raw_input("Height:")
-            pattern_type = "spiral"
-            size_x = 100.0
-            size_y = 100.0
-            spacing = 5.0
-            height = 13.1
+            pattern_type = raw_input("Pattern type: ")
+            size_x = raw_input("Size_x: ")
+            size_y = raw_input("Size_y: ")
+            spacing = raw_input("Spacing: ")
+            height = raw_input("Height:")
+            # pattern_type = "spiral"
+            # size_x = 100.0
+            # size_y = 100.0
+            # spacing = 5.0
+            # height = 13.1
             request = PointsRequest()
             request.pattern = pattern_type
             request.size_x = float(size_x)
