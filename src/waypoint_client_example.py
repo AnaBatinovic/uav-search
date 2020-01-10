@@ -24,16 +24,16 @@ if __name__ == "__main__":
     print("Will do the test now")
     try:
         while True:
-            pattern_type = raw_input("Pattern type: ")
-            size_x = raw_input("Size_x: ")
-            size_y = raw_input("Size_y: ")
-            spacing = raw_input("Spacing: ")
-            height = raw_input("Height:")
-            # pattern_type = "spiral"
-            # size_x = 100.0
-            # size_y = 100.0
-            # spacing = 5.0
-            # height = 13.1
+            # pattern_type = raw_input("Pattern type: ")
+            # size_x = raw_input("Size_x: ")
+            # size_y = raw_input("Size_y: ")
+            # spacing = raw_input("Spacing: ")
+            # height = raw_input("Height:")
+            pattern_type = "spiral"
+            size_x = 100.0
+            size_y = 100.0
+            spacing = 5.0
+            height = 13.1
             request = PointsRequest()
             request.pattern = pattern_type
             request.size_x = float(size_x)

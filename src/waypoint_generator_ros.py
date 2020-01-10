@@ -8,8 +8,8 @@ from uav_search.msg import *
 class WaypointGenerator:
 
     def __init__(self):    
-        self.spacing = 10#rospy.get_param("~spacing")
-        self.height = 3#rospy.get_param("~height")
+        self.spacing = 10 #rospy.get_param("~spacing")
+        self.height = 3 #rospy.get_param("~height")
 
     def generatePoints(self):
         if self.search_pattern == "spiral":
@@ -19,7 +19,7 @@ class WaypointGenerator:
         elif self.search_pattern == "lawn":
             return self.generatePointsLawn()
 
-    def generatePointsSpiral(self, length_x,length_y):
+    def generatePointsSpiral(self, length_x, length_y):
         if length_y >= length_x:
             directions=[[1,0],[0,-float(length_x)/length_y],[-1,0],[0,float(length_x)/length_y]]
         else:
@@ -34,8 +34,11 @@ class WaypointGenerator:
             x=points[i-1][1]+np.array(directions[(i-1)%4][1])*((num_points-i)*self.spacing)
             xnew=a+b-x
             ynew=y+b-a
-            orient = np.arctan2(ynew-b, xnew-a)
-            points=np.vstack((points,np.array([[xnew, ynew, self.height, orient]])))
+            orientation = np.arctan2(ynew-b, xnew-a)
+            # set orientation for the previous point
+            points[i-1][3] = orientation
+            # comment above line and add orientation instead of zero to put orientation in current point
+            points=np.vstack((points,np.array([[xnew, ynew, self.height, 0]])))
         return points
 
     def generatePointsLawn(self, length_x, length_y):
@@ -48,8 +51,11 @@ class WaypointGenerator:
             b=points[i-1][1]
             x=points[i-1][0]+np.array(directions[(i-1)%2][0])*self.spacing
             y=points[i-1][1]+np.array(directions[(i-1)%2][1])*length_y
-            orient = np.arctan2(y-b, x-a)
-            points=np.vstack((points,np.array([[x, y, self.height, orient]])))
+            orientation = np.arctan2(y-b, x-a)
+            # set orientation for the previous point
+            points[i-1][3] = orientation
+            # comment above line and add orientation instead of zero to put orientation in current point
+            points=np.vstack((points,np.array([[x, y, self.height, 0]])))
         return points
 
     def generatePointsLevy(self, length_x, length_y, sigma):
@@ -80,8 +86,11 @@ class WaypointGenerator:
                 count += 1
                 if count > 100:
                     break
-            orient = np.arctan2(y-b, x-a)
-            points=np.vstack((points,np.array([[x,y, self.height, orient]])))
+            orientation = np.arctan2(y-b, x-a)
+            # set orientation for the previous point
+            points[i-1][3] = orientation
+            # comment above line and add orientation instead of zero to put orientation in current point
+            points=np.vstack((points,np.array([[x,y, self.height, 0]])))
         return points
 
     def handle_get_points(self, req):
